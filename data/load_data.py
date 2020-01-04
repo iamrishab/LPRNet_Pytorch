@@ -5,24 +5,30 @@ import random
 import cv2
 import os
 
-CHARS = ['京', '沪', '津', '渝', '冀', '晋', '蒙', '辽', '吉', '黑',
-         '苏', '浙', '皖', '闽', '赣', '鲁', '豫', '鄂', '湘', '粤',
-         '桂', '琼', '川', '贵', '云', '藏', '陕', '甘', '青', '宁',
-         '新',
-         '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-         'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K',
-         'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',
-         'W', 'X', 'Y', 'Z', 'I', 'O', '-'
+# CHARS = ['京', '沪', '津', '渝', '冀', '晋', '蒙', '辽', '吉', '黑',
+#          '苏', '浙', '皖', '闽', '赣', '鲁', '豫', '鄂', '湘', '粤',
+#          '桂', '琼', '川', '贵', '云', '藏', '陕', '甘', '青', '宁',
+#          '新',
+#          '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+#          'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K',
+#          'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',
+#          'W', 'X', 'Y', 'Z', 'I', 'O', '-'
+#          ]
+
+CHARS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+         'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 
+         'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 
+         'U', 'V', 'W', 'X', 'Y', 'Z'
          ]
 
 CHARS_DICT = {char:i for i, char in enumerate(CHARS)}
 
+
 class LPRDataLoader(Dataset):
     def __init__(self, img_dir, imgSize, lpr_max_len, PreprocFun=None):
+        # import pdb; pdb.set_trace()
         self.img_dir = img_dir
-        self.img_paths = []
-        for i in range(len(img_dir)):
-            self.img_paths += [el for el in paths.list_images(img_dir[i])]
+        self.img_paths = [os.path.join(img_dir, file) for file in os.listdir(img_dir)]
         random.shuffle(self.img_paths)
         self.img_size = imgSize
         self.lpr_max_len = lpr_max_len
@@ -36,6 +42,7 @@ class LPRDataLoader(Dataset):
 
     def __getitem__(self, index):
         filename = self.img_paths[index]
+        # print('Processing image:', filename)
         Image = cv2.imread(filename)
         height, width, _ = Image.shape
         if height != self.img_size[1] or width != self.img_size[0]:
@@ -44,7 +51,8 @@ class LPRDataLoader(Dataset):
 
         basename = os.path.basename(filename)
         imgname, suffix = os.path.splitext(basename)
-        imgname = imgname.split("-")[0].split("_")[0]
+        # imgname = imgname.split("-")[0].split("_")[0]
+        imgname = imgname.split('.')[0].strip().replace(' ', '')
         label = list()
         for c in imgname:
             # one_hot_base = np.zeros(len(CHARS))
@@ -65,7 +73,8 @@ class LPRDataLoader(Dataset):
         img = np.transpose(img, (2, 0, 1))
 
         return img
-
+    
+    # TODO: check this part
     def check(self, label):
         if label[2] != CHARS_DICT['D'] and label[2] != CHARS_DICT['F'] \
                 and label[-1] != CHARS_DICT['D'] and label[-1] != CHARS_DICT['F']:

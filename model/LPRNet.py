@@ -1,6 +1,7 @@
 import torch.nn as nn
 import torch
 
+
 class small_basic_block(nn.Module):
     def __init__(self, ch_in, ch_out):
         super(small_basic_block, self).__init__()
@@ -15,6 +16,7 @@ class small_basic_block(nn.Module):
         )
     def forward(self, x):
         return self.block(x)
+
 
 class LPRNet(nn.Module):
     def __init__(self, lpr_max_len, phase, class_num, dropout_rate):
@@ -79,11 +81,12 @@ class LPRNet(nn.Module):
 
         return logits
 
+    
 def build_lprnet(lpr_max_len=8, phase=False, class_num=66, dropout_rate=0.5):
 
     Net = LPRNet(lpr_max_len, phase, class_num, dropout_rate)
 
-    if phase == "train":
+    if phase:
         return Net.train()
     else:
         return Net.eval()
