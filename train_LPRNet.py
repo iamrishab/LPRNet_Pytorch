@@ -136,6 +136,8 @@ def Greedy_Decode_Eval(lprnet, datasets, args):
                 preb_label.append(np.argmax(preb[:, j], axis=0))
             no_repeat_blank_label = list()
             pre_c = preb_label[0]
+			if pre_c != len(CHARS) - 1:
+                no_repeat_blank_label.append(pre_c)
             for c in preb_label: # dropout repeate label and blank label
                 if (pre_c == c) or (c == len(CHARS) - 1):
                     if c == len(CHARS) - 1:
