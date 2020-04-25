@@ -1,7 +1,6 @@
 # LPRNet_Pytorch
 Pytorch Implementation For LPRNet, A High Performance And Lightweight License Plate Recognition Framework.  
-完全适用于中国车牌识别（Chinese License Plate Recognition）及国外车牌识别！  
-目前仅支持同时识别蓝牌和绿牌即新能源车牌等中国车牌，但可通过扩展训练数据或微调支持其他类型车牌及提高识别准确率！
+Originally this repo was for Chinese License Plate Recognition but changes are made to work on Indian or English Number Plates.
 
 # dependencies
 
@@ -13,8 +12,11 @@ Pytorch Implementation For LPRNet, A High Performance And Lightweight License Pl
 - numpy
 
 # pretrained model
-
+Chinese License Plate Recognition
 * [pretrained_model](https://github.com/sirius-ai/LPRNet_Pytorch/tree/master/weights/)
+
+English License Plate Recognition
+* Soon to be provided.
 
 # training and testing
 
@@ -38,8 +40,5 @@ Pytorch Implementation For LPRNet, A High Performance And Lightweight License Pl
 # References
 
 1. [LPRNet: License Plate Recognition via Deep Neural Networks](https://arxiv.org/abs/1806.10447v1)
-2. [PyTorch中文文档](https://pytorch-cn.readthedocs.io/zh/latest/)
-
-# postscript
 
 If you found this useful, please give me a star, thanks!
